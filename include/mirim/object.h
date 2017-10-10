@@ -9,24 +9,7 @@
  *   Anderson Tavares <acmt@outlook.com>
  */
 
-#ifndef MIRIM_H
-#define MIRIM_H
-
-#include <mirim/error.h>
-
-/**
- * @brief Parse file
- * @param filename
- * @param error
- */
-void
-parseFile(const char *filename, Error** error);
-
-/**
- * @brief Scan text
- * @param text
- */
-void
-scan(const char* text, Error** error);
+#ifndef MIRIM_OBJECT_H
+#define MIRIM_OBJECT_H
 
 #endif

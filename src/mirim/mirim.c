@@ -5,9 +5,12 @@
 static char* fileText;
 
 static void
-readFile(const char* filename, char** text) {
+readFile(const char* filename, char** text, Error** error) {
   // Open file
   FILE* fp = fopen(filename, "r");
+  if(!fp){
+    error
+  }
 
   // Get total bytes
   fseek(fp, 0, SEEK_END);
@@ -28,15 +31,24 @@ readFile(const char* filename, char** text) {
 }
 
 void
-scan(const char* text) {
-
+scan(const char* text, Error** error) {
+  char* p = text;
+  do {
+    printf("%c\n", *p);
+  } while(++p);
 }
 
 void
-parseFile(const char *filename){
+parseFile(const char *filename, Error** error){
   // Read file
-  readFile(filename, &fileText);
+  readFile(filename, &fileText, error);
+  if(error){
+    return;
+  }
 
   // Generate tokens
-  scan(fileText);
+  scan(fileText, error);
+  if(error){
+    return;
+  }
 }
