@@ -9,7 +9,8 @@ readFile(const char* filename, char** text, Error** error) {
   // Open file
   FILE* fp = fopen(filename, "r");
   if(!fp){
-    error
+    *error = mr_error_new("Could not open file");
+    return;
   }
 
   // Get total bytes
@@ -32,23 +33,31 @@ readFile(const char* filename, char** text, Error** error) {
 
 void
 scan(const char* text, Error** error) {
-  char* p = text;
+  char* p = (char*) text;
+  char* lexemeStart = p;
+  char* lexemeEnd = p;
+
   do {
-    printf("%c\n", *p);
-  } while(++p);
+    printf("%c %d", *p, *p);
+    lexemeEnd++;
+    if(*p >= 'a' && *p <= 'z') {
+
+    }
+    printf("\n");
+  } while(*(++p));
 }
 
 void
 parseFile(const char *filename, Error** error){
   // Read file
   readFile(filename, &fileText, error);
-  if(error){
+  if(error != NULL && *error){
     return;
   }
 
   // Generate tokens
   scan(fileText, error);
-  if(error){
+  if(error != NULL && *error){
     return;
   }
 }

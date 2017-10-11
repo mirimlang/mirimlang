@@ -23,11 +23,11 @@ typedef struct Error {
   /**
    * Error message
    */
-  char* message;
+  const char* message;
 } Error;
 
 Error*
-mr_error_new(char type, const char* message);
+mr_error_new(const char* message);
 
 /**
  * @brief      

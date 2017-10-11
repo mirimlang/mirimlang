@@ -9,25 +9,15 @@
  *   Anderson Tavares <acmt@outlook.com>
  */
 
-#ifndef MIRIM_H
-#define MIRIM_H
+#ifndef MIRIM_CORE_H
+#define MIRIM_CORE_H
 
-#include <mirim/core.h>
-#include <mirim/error.h>
-
-/**
- * @brief Parse file
- * @param filename
- * @param error
- */
-void
-parseFile(const char *filename, Error** error);
-
-/**
- * @brief Scan text
- * @param text
- */
-void
-scan(const char* text, Error** error);
+#ifndef NULL
+#  ifdef __cplusplus
+#  define NULL        (0L)
+#  else /* !__cplusplus */
+#  define NULL        ((void*) 0)
+#  endif /* !__cplusplus */
+#endif
 
 #endif
