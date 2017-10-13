@@ -1,63 +1,43 @@
 #include <mirim/mirim.h>
 #include <stdio.h>
-#include <stdlib.h>
-
-static char* fileText;
-
-static void
-readFile(const char* filename, char** text, Error** error) {
-  // Open file
-  FILE* fp = fopen(filename, "r");
-  if(!fp){
-    *error = mr_error_new("Could not open file");
-    return;
-  }
-
-  // Get total bytes
-  fseek(fp, 0, SEEK_END);
-  long fsize = ftell(fp);
-  fseek(fp, 0, SEEK_SET);  //same as rewind(f);
-
-  // Allocate all bytes
-  *text = malloc(fsize + 1);
-
-  // Read file
-  fread(*text, fsize, 1, fp);
-
-  // Close file
-  fclose(fp);
-
-  // \0 at end
-  (*text)[fsize] = 0;
-}
 
 void
-scan(const char* text, Error** error) {
-  char* p = (char*) text;
-  char* lexemeStart = p;
-  char* lexemeEnd = p;
-
-  do {
-    printf("%c %d", *p, *p);
-    lexemeEnd++;
-    if(*p >= 'a' && *p <= 'z') {
-
-    }
-    printf("\n");
-  } while(*(++p));
-}
-
-void
-parseFile(const char *filename, Error** error){
+mr_parsefile(const char *filename, char** text, long *nchars, Error** error){
   // Read file
-  readFile(filename, &fileText, error);
-  if(error != NULL && *error){
+  *text = mr_readfile(filename, nchars, error);
+  if(error != NULL && *error != NULL){
     return;
   }
 
   // Generate tokens
-  scan(fileText, error);
-  if(error != NULL && *error){
+  ScannerToken* tokens = NULL;
+  uint16_t ntokens = mr_scan(*text, &tokens, error);
+  if(error != NULL && *error != NULL){
     return;
+  } else {
+    printf("%d tokens", ntokens);
+    uint16_t i;
+    for(i = 0; i < ntokens; i++){
+      switch(tokens[i].token){
+        case TK_ID: printf("ID ");break;
+        case TK_BLOCKOPEN: printf("BLOCKOPEN\n");break;
+        case TK_BLOCKCLOSE: printf("BLOCKCLOSE\n");break;
+        case TK_OP_EQ: printf("= ");break;
+        case TK_DOT: printf(".");break;
+        case TK_HASH: printf("#");break;
+        case TK_STATIC: printf("+ ");break;
+        case TK_DYNAMIC: printf("- ");break;
+        case TK_NEWLINE: printf("\n");break;
+        case TK_LITERAL: printf("LITERAL ");break;
+        case TK_TEXT: printf("TEXT ");break;
+      }
+    }
+  }
+
+  // Parse the tokens
+//  mr_parse(tokens, error);
+  if(error != NULL && *error != NULL){
+
   }
 }
+

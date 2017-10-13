@@ -9,23 +9,18 @@
  *   Anderson Tavares <acmt@outlook.com>
  */
 
-#ifndef MIRIM_H
-#define MIRIM_H
+#ifndef MIRIM_IO_H
+#define MIRIM_IO_H
 
-#include <mirim/core.h>
-#include <mirim/io.h>
 #include <mirim/error.h>
-#include <mirim/scanner.h>
-#include <stddef.h>
-
 /**
- * @brief Parse file
+ * @brief Read contents of a file and return the number of chars
  * @param filename
- * @param text
  * @param nchars
  * @param error
+ * @return
  */
-void
-mr_parsefile(const char *filename, char **text, long *nchars, Error** error);
+char*
+mr_readfile(const char* filename, long* nchars, Error** error);
 
 #endif
